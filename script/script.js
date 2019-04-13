@@ -37,7 +37,7 @@ xhr.send();
 
 const map = new daum.maps.Map(document.getElementById('map'), {
 	center: new daum.maps.LatLng(35.505700, 129.382000),
-  level: 4,
+  level: 2,
   draggable: false,
   disableDoubleClick: true,
 });
@@ -48,8 +48,8 @@ const marker = new daum.maps.Marker({
   position: pos,
 });
 
-const infowindow = new daum.maps.InfoWindow({
+/* const infowindow = new daum.maps.InfoWindow({
   position : pos,
   content : '<div style="font-family: \'Nanum Gothic\', sans-serif; text-align: center; width:150px; height:23px;"><span>고래 광장</span></div>',
 });
-infowindow.open(map, marker);
+infowindow.open(map, marker); */
