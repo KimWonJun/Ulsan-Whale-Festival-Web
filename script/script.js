@@ -15,38 +15,46 @@ const colors = [
 const request = (url) => new Promise((resolve, reject) => {
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', function () {
-    if (this.status.toString()[0] === '2') resolve(this);
+    if (this.status.toString()[0] === '2') resolve(this.responseText);
     else reject(this.status);
   });
   xhr.open('GET', url);
   xhr.setRequestHeader('deviceUUID', 'request');
   xhr.send();
 });
-(async function () {
-  request('http://whale.istruly.sexy:1234/team').then(result => {
-    const list = document.querySelector('.team-list > ul');
 
-    Object.keys(JSON.parse(result.responseText)).forEach((e, i) => {
-      const team = document.createElement('li');
-      const circle = document.createElement('span');
-      const name = document.createElement('span');
+const getJson = (url) => request(url).then(JSON.parse);
 
-      circle.classList = 'circle';
-      circle.style.color = colors[i];
-      circle.innerText = '●';
-      name.innerText = e;
+getJson('http://whale.istruly.sexy:1234/team').then(result => {
+  const list = document.querySelector('.team-list > ul');
+  
+  Object.keys(result).forEach((e, i) => {
+    const team = document.createElement('li');
+    const circle = document.createElement('span');
+    const name = document.createElement('span');
+    
+    circle.classList = 'circle';
+    circle.style.color = colors[i];
+    circle.innerText = '●';
+    name.innerText = e;
+    
+    team.appendChild(circle);
+    team.appendChild(name);
+    list.appendChild(team);
+  });
+});
 
-      team.appendChild(circle);
-      team.appendChild(name);
-      list.appendChild(team);
+getJson('http://whale.istruly.sexy:1234/map/web')
+  .then(({ map: status }) => {
+    const markers = Object.entries(status).map(e => ({
+      position: new daum.maps.LatLng(e[1].latitude, e[1].longitude),
+      text: e[1].teamName || '빈 곳',
+    }));
+
+    const map = new daum.maps.StaticMap(document.getElementById('map'), {
+      center: new daum.maps.LatLng(35.505700, 129.382000),
+      level: 2,
+      draggable: false,
+      marker: markers,
     });
   });
-
-  const { responseText: { map: status} } = await request('http://whale.istruly.sexy:1234/map/web');
-  const map = new daum.maps.StaticMap(document.getElementById('map'), {
-    center: new daum.maps.LatLng(35.505700, 129.382000),
-    level: 2,
-    draggable: false,
-    marker: Object.entries(status).map(e => ({ position: new daum.maps.LatLng(e[1].latitude, e[1].longitude), text: e[1].teamName })),
-  });
-})();
