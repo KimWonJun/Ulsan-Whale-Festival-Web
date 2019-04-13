@@ -35,21 +35,12 @@ xhr.open('GET', 'http://whale.istruly.sexy:1234/team');
 xhr.setRequestHeader('deviceUUID', 'request');
 xhr.send();
 
-const map = new daum.maps.Map(document.getElementById('map'), {
+const map = new daum.maps.StaticMap(document.getElementById('map'), {
 	center: new daum.maps.LatLng(35.505700, 129.382000),
   level: 2,
   draggable: false,
-  disableDoubleClick: true,
+  marker: {
+    position: new daum.maps.LatLng(35.5049423, 129.3812869),
+    text: 'test'
+  }
 });
-
-const pos = new daum.maps.LatLng(35.5049423, 129.3812869);
-const marker = new daum.maps.Marker({
-  map,
-  position: pos,
-});
-
-/* const infowindow = new daum.maps.InfoWindow({
-  position : pos,
-  content : '<div style="font-family: \'Nanum Gothic\', sans-serif; text-align: center; width:150px; height:23px;"><span>고래 광장</span></div>',
-});
-infowindow.open(map, marker); */
