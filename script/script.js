@@ -19,7 +19,6 @@ const request = (url) => new Promise((resolve, reject) => {
     else reject(this.status);
   });
   xhr.open('GET', url);
-  xhr.setRequestHeader('deviceUUID', 'request');
   xhr.send();
 });
 
