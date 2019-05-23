@@ -12,22 +12,12 @@ const colors = [
   '#87B1E8'
 ];
 
-const request = (url) => new Promise((resolve, reject) => {
-  let xhr = new XMLHttpRequest();
-  xhr.addEventListener('load', function () {
-    if (this.status.toString()[0] === '2') resolve(this.responseText);
-    else reject(this.status);
-  });
-  xhr.open('GET', url);
-  xhr.send();
-});
-
-const getJson = (url) => request(url).then(JSON.parse);
-
-getJson('http://whale.istruly.sexy:1234/team').then(result => {
+fetch('http://whale.istruly.sexy:1234/team').then(async res => {
+  const result = await res.json();
   const list = document.querySelector('.team-list > ul');
+  console.log(result);
   
-  Object.keys(result).forEach((e, i) => {
+  result.forEach((e, i) => {
     const team = document.createElement('li');
     const circle = document.createElement('span');
     const name = document.createElement('span');
@@ -35,7 +25,7 @@ getJson('http://whale.istruly.sexy:1234/team').then(result => {
     circle.classList = 'circle';
     circle.style.color = colors[i];
     circle.innerText = '●';
-    name.innerText = e;
+    name.innerText = e.name;
     
     team.appendChild(circle);
     team.appendChild(name);
@@ -43,17 +33,9 @@ getJson('http://whale.istruly.sexy:1234/team').then(result => {
   });
 });
 
-getJson('http://whale.istruly.sexy:1234/map/web')
-  .then(({ map: status }) => {
-    const markers = Object.entries(status).map(e => ({
-      position: new daum.maps.LatLng(e[1].latitude, e[1].longitude),
-      text: e[1].teamName || '빈 곳',
-    }));
-
-    const map = new daum.maps.StaticMap(document.getElementById('map'), {
-      center: new daum.maps.LatLng(35.505700, 129.382000),
-      level: 2,
-      draggable: false,
-      marker: markers,
-    });
+// TODO: map 추가하고 핀 찍기
+fetch('http://whale.istruly.sexy:1234/map/web')
+  .then(async res => {
+    const result = await res.json();
+    document.querySelector('.remaining').textContent = result.leftTime;
   });
