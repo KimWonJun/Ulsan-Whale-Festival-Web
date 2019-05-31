@@ -37,5 +37,6 @@ fetch('http://whale.istruly.sexy:1234/team').then(async res => {
 fetch('http://whale.istruly.sexy:1234/map/web')
   .then(async res => {
     const result = await res.json();
-    document.querySelector('.remaining').textContent = result.leftTime;
+    if (res.status % 100 === 2)
+      document.querySelector('.remaining').textContent = result.leftTime;
   });
