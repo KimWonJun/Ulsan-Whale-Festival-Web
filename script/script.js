@@ -41,7 +41,7 @@ function getMarkerElem(team, booth, left, top) {
   name.textContent = booth;
 
   pin.classList.add('pin');
-  pin.src = `assets/pin_${pins[team || 'default']}.png`;
+  pin.src = `assets/pin_${pins[team || '기본']}.png`;
 
   marker.appendChild(name);
   marker.appendChild(pin);
