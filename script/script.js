@@ -63,7 +63,7 @@ fetch('http://whale.istruly.sexy:1234/map/web')
     if (res.status / 100 !== 2) return;
     const map = document.querySelector('.map-container');
 
-    document.querySelector('.remaining').textContent = `${new Date(result.endTimeTimestamp).toLocaleString()}까지`;
+    document.querySelector('.remaining').textContent = `${new Date(result.endTimeTimestamp * 1000).toLocaleString()}까지`;
     result.map.forEach(booth => {
       map.appendChild(getMarkerElem(booth.own_team, booth.booth_name, booth.x, booth.y));
     });
