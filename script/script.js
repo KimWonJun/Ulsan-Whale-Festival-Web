@@ -12,6 +12,8 @@ const pins = {
   '기본': 'default',
 }
 
+const removeElements = (elms) => elms.forEach(el => el.remove());
+
 function getTeamElem(team) {
   const teamElem = document.createElement('li');
   const circleElem = document.createElement('span');
@@ -49,22 +51,31 @@ function getMarkerElem(team, booth, left, top) {
   return marker;
 }
 
-fetch('http://whale.istruly.sexy:1234/team').then(async res => {
-  const result = await res.json();
-  const list = document.querySelector('.team-list > ul');
-
-  result.forEach(team => list.appendChild(getTeamElem(team)));
-});
-
-// TODO: map 추가하고 핀 찍기
-fetch('http://whale.istruly.sexy:1234/map/web')
-  .then(async res => {
+function getTeam() {
+  fetch('http://whale.istruly.sexy:1234/team').then(async res => {
     const result = await res.json();
-    if (res.status / 100 !== 2) return;
-    const map = document.querySelector('.map-container');
+    const list = document.querySelector('.team-list > ul');
 
-    document.querySelector('.remaining').textContent = `${new Date(result.endTimeTimestamp * 1000).toLocaleString()}까지`;
-    result.map.forEach(booth => {
-      map.appendChild(getMarkerElem(booth.own_team, booth.booth_name, booth.x, booth.y));
-    });
+    result.forEach(team => list.appendChild(getTeamElem(team)));
   });
+}
+
+function getStatus() {
+  fetch('http://whale.istruly.sexy:1234/map/web')
+    .then(async res => {
+      const result = await res.json();
+      if (res.status / 100 !== 2) return;
+      const map = document.querySelector('.map-container');
+
+      document.querySelector('.remaining').textContent = `${new Date(result.endTimeTimestamp * 1000).toLocaleString()}까지`;
+      result.map.forEach(booth => {
+        map.appendChild(getMarkerElem(booth.own_team, booth.booth_name, booth.x, booth.y));
+      });
+  });
+}
+
+getTeam();
+setInterval(() => {
+  removeElements(document.querySelectorAll('.marker'));
+  getStatus();
+}, 5000);
