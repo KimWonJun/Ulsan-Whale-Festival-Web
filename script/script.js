@@ -43,8 +43,8 @@ function getMarkerElem(team, booth, left, top) {
   pin.classList.add('pin');
   pin.src = `assets/pin_${pins[team || '기본']}.png`;
 
-  marker.appendChild(name);
   marker.appendChild(pin);
+  marker.appendChild(name);
 
   return marker;
 }
