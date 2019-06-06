@@ -34,8 +34,8 @@ function getMarkerElem(team, booth, left, top) {
   const pin = document.createElement('img');
 
   marker.classList.add('marker');
-  marker.style.left = `${left}px`;
-  marker.style.top = `${top}px`;
+  marker.style.left = `${left}%`;
+  marker.style.top = `${top}%`;
 
   name.classList.add('booth');
   name.textContent = booth;
