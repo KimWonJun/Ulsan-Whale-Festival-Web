@@ -68,6 +68,7 @@ function getStatus() {
       const map = document.querySelector('.map-container');
 
       document.querySelector('.remaining').textContent = `${new Date(result.endTimeTimestamp * 1000).toLocaleString()}까지`;
+      removeElements(document.querySelectorAll('.marker'));
       result.map.forEach(booth => {
         map.appendChild(getMarkerElem(booth.own_team, booth.booth_name, booth.x, booth.y));
       });
@@ -75,7 +76,4 @@ function getStatus() {
 }
 
 getTeam();
-setInterval(() => {
-  removeElements(document.querySelectorAll('.marker'));
-  getStatus();
-}, 5000);
+setInterval(getStatus, 5000);
