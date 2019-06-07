@@ -32,21 +32,21 @@ function getTeamElem(team) {
 
 function getMarkerElem(team, booth, left, top) {
   const marker = document.createElement('div');
-  const name = document.createElement('span');
+  // const name = document.createElement('span');
   const pin = document.createElement('img');
 
   marker.classList.add('marker');
   marker.style.left = `${left}%`;
   marker.style.top = `${top}%`;
 
-  name.classList.add('booth');
-  name.textContent = booth;
+  // name.classList.add('booth');
+  // name.textContent = booth;
 
   pin.classList.add('pin');
   pin.src = `assets/pin_${pins[team || '기본']}.png`;
 
   marker.appendChild(pin);
-  marker.appendChild(name);
+  // marker.appendChild(name);
 
   return marker;
 }
